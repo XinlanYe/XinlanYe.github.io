@@ -1,0 +1,107 @@
+<!doctype html>
+      <html>
+        <head>
+          <title>WebArtJQueryPage</title>
+
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+      	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+      	<script src="t3.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+
+          <style>
+
+            body {
+            font-family: 'Josefin Sans', sans-serif;
+            cursor:wait;
+          }
+
+          #text01{
+            position:absolute;
+            font-size: 100px;
+            top:50vh;
+            left:20vw;
+            text-shadow: 8px 0px 0px #BD4089;
+            cursor: help;
+          }
+
+          #text02{
+            position:absolute;
+            font-size: 40px;
+            top:20vh;
+            left:10vw;
+            color:#BD4089;
+            /* text-shadow: 8px 0px 0px #BD4089; */
+            /* cursor: help; */
+          }
+
+
+
+          #link1{
+             display: none;
+             position:fixed;
+             font-size: 30px;
+             bottom: 10vh;
+             left:20vw;
+
+          }
+
+          #img01{
+            position: fixed;
+            top:0px;
+            left:0px;
+            opacity: .6;
+            width:50vw;
+            height:100vh;
+            z-index:-1;
+            /* border-radius: 400px 0px 0px 0px; */
+          }
+          #img02{
+            position: fixed;
+            top:0px;
+            left:40vw;
+            opacity: .3;
+            width:50vw;
+            height:100vh;
+            z-index:-1;
+          }
+
+          #gif01{
+            border-radius: 400px 20px 40px 100px;
+            cursor: move;
+          }
+          #gif00{
+            z-index:10;
+            /* cursor: move; */
+          }
+
+
+          </style>
+        </head>
+        <body>
+          <div id=img01>
+            <img src="linabell01.jpg">
+          </div>
+          <div id=img02>
+            <img src="linabell01.jpg">
+          </div>
+
+          <div id=text01>
+            HELLO AGAIN
+          </div>
+
+          <div id=text02>
+            This is Duffy's new Friend!
+            <div id=text03> </div>
+          </div>
+
+          <div id=gif00>
+            <img id=gif01 src="linabell02.GIF">
+          </div>
+
+
+          <div id=link1>
+            <a href=index.html>To the main page</a>
+          </div>
+
+        </body>
+      </html>

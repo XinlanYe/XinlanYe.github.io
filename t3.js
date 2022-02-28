@@ -1,5 +1,5 @@
 $(document).ready(function() {
-// alert("you got this alert");
+alert("you got this alert");
 $("#text01").draggable();
 $("#gif00").draggable();
 $("#text01").hover(function(){

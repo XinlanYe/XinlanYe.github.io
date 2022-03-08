@@ -1,268 +1,206 @@
 <!doctype html>
-<html>
-  <head>
-    <title>Dynamic Web Final</title>
+      <html>
+        <head>
+          <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet'>
+          <link href='https://fonts.googleapis.com/css?family=Bayon' rel='stylesheet'>
 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&display=swap" rel="stylesheet">
+          <title>WebArtFirstPage</title>
+          <link rel="shortcut icon" href="frog.gif">
 
-    <!-- <script src="../p5/p5.min.js"></script>
-    <script src="sketch.js"></script> -->
+          <style>
 
-    <style>
-
-      body{
-        background: black;
-        color:white;
-        font-family: 'Inconsolata';
-        /* text-shadow: 10px 2px #BF1A2F; */
-        /* cursor: url("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/25.png"),auto; */
-        /* cursor:help; */
-      }
-
-
-
-      .videos{
-        display:flex;
-        float: left;
-        width:20%;
-        height:30vh;
-      }
-
-      #title{
-        text-align: center;
-        letter-spacing: -10px;
-        font-size: 100px;
-        text-shadow: 10px 2px #BF1A2F;
-      }
-
-      #form {
-        text-align: center;
-        font-size: 30px;
-      }
-
-      #query{
-        font-size: 30px;
-      }
-      #search{
-        font-size: 30px;
-      }
-
-      #result{
-        display: none;
-        position:relative;
+          body{
+            background-color:#99004d;
+          }
+            #text1 {
+        position: absolute;
+        color:darkgreen;
+        /* background-color:#99004d; */
+        text-shadow: 1px 3px 1px white;
+        border: 10px solid black;
+        border-radius: 10px 20px 10px 30px;
+        width: 500px;
+        left: 300px;
+        top: 180px;
+        font-size: 80px;
+        font-family: Anton;
         text-align: left;
-        top:50px;
-        left:300px;
-        font-size:20px;
       }
 
-
-      #pokemon_name{
+      #text2{
+        position: absolute;
+        font-size: 70px;
+        font-family: Bayon;
+        color:#392061;
+        /* font-variant: small-caps; */
+        width: 5000px;
+        left: 20px;
+        top: 10px;
+        line-height: 80%;
+      }
+      #text3{
+        position: relative;
+        color:#F0F2A6;
         font-size: 50px;
+        font-family: Bayon;
+        text-decoration: line-through;
+        text-decoration-color: black;
+        width: 200px;
+        left: 20px;
+        top: 200px;
+        line-height: 150%;
+      }
+      #link2{
+        color:#F0F2A6;
+        text-decoration-color: black;
       }
 
-      #videos{
-        position:absolute;
-        left:-300px;
+      #link2:hover {
+        font-size: 80px;
+        /* text-decoration: overline; */
+        text-shadow: 1px 3px 1px red;
+        line-height: 70%;
+        color:purple;
       }
 
-      #player{
-        position:absolute;
-        left:0px;
+      #link2:active{
+        color:green;
       }
 
-      #error {
-        text-align: center;
-        font-size: 30px;
-        color:#BF1A2F;
-        display: none;
+      #text4{
+        position: absolute;
+        font-size: 20px;
+        width: 700px;
+        left: 270px;
+        top: 200px;
+        font-family: Bayon;
+        color:#E6E6E6;
+        line-height: 130%;
+        z-index: -2;
       }
 
-    </style>
-  </head>
-  <body>
+      #t1{
+        color:#17301C;
+        text-decoration: line-through;
+        text-decoration-color: black;
+      }
 
-    <h1 id='title'>Pokemon Search</h1>
+      #t2{
+        color:#17301C;
+        text-decoration-line: underline;
+        text-decoration-style: wavy;
+        text-decoration-color: black;
+        text-shadow: 1px 3px 1px grey;
+      }
 
-    <div id="form">
-      :: <input type="text" id="query"> <button id="search">Search</button>
-    </div>
-
-    <h3 id="error">This Pokemon doesn't exist :(</h3>
-
-    <div id="result">
-      <h3 id="pokemon_name"></h3>
-      <img src="#" id="pokemon_image">
-
-      <h4>Type(s)</h4>
-      <ul id="pokemon_types">
-      </ul>
-
-      <h4>Abilities</h4>
-      <ul id="pokemon_abilities">
-      </ul>
-
-      <!-- <h4>Videos</h4> -->
-
-      <div id="videos"></div>
-      <div id="player"></div>
-    </div>
-
-
-    <!-- import jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-
-    <!-- custom application code -->
-    <script>
-
-      $(document).ready(function() {
-
-        // some DOM references
-        var query = document.getElementById('query');
-        var search = document.getElementById('search');
-        var error = document.getElementById('error');
-        var result = document.getElementById('result');
-        var pokemon_name = document.getElementById('pokemon_name');
-        var pokemon_image = document.getElementById('pokemon_image');
-        var pokemon_types = document.getElementById('pokemon_types');
-        var pokemon_abilities = document.getElementById('pokemon_abilities');
-        var videos = document.getElementById('videos');
-        var player = document.getElementById('player');
-        var cursor=document.body.style.cursor;
-        //document.body.style.cursor="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/25.png";
-        // console.log(document.body.style.cursor);
-
-        // API key (put yours here)
-        // get your credentials:
-        // 1. visit y
-        // 2. click the drop down carrot at the top of the screen, to the right of the "Google Cloud Platform" header graphic
-        // 3. click "New Project"
-        // 4. give your project a name, and click "Create"
-        // 5. a notification will appear at the top right side of the page - click on the newly created project title
-        // 6. locate "Go to API Overview" in the middle of the page and click on it
-        // 7. click on "+ Enable APIs and Services"
-        // 8. search for YouTube
-        // 9. click on the "YouTube Data API v3" link that appears
-        // 10. click the Enable button
-        // 11. click the Credentials link on the left side of the screen
-        // 12. click "+ Create Credentials" and select an API key
-        // 13. copy the string that appears and hit close (you can get this later if you ever need it)
-        // 14. paste the API key into the variable below
-        var apiKey = 'AIzaSyC51fOApoEcH6IPCwS1Q_jIUTkmMJkB4lA';
-
-        // listen for searches
-        search.addEventListener('click', function(event) {
-
-          // hide the error and result divs
-          error.style.display = 'none';
-          result.style.display = 'none';
-
-          // query the PokeAPI for info about this pokemon
-          $.ajax({
-            url: 'https://pokeapi.co/api/v2/pokemon/'+query.value,
-            success: function(data, status) {
-              console.log(data);
-              result.style.display = 'block';
-              pokemon_name.innerHTML = data.name;
-              pokemon_image.src = data.sprites.front_default;
-              document.body.style.cursor='url("' + data.sprites.back_shiny + '"), auto';
-
-
-              while (pokemon_types.children.length > 0) {
-                pokemon_types.removeChild( pokemon_types.children[0]);
-              }
-              for (var i = 0; i < data.types.length; i++) {
-                var t = document.createElement('li');
-                t.innerHTML = data.types[i].type.name;
-                pokemon_types.appendChild(t);
-              }
-
-              while (pokemon_abilities.children.length > 0) {
-                pokemon_abilities.removeChild( pokemon_abilities.children[0]);
-              }
-              for (var i = 0; i < data.abilities.length; i++) {
-                var t = document.createElement('li');
-                t.innerHTML = data.abilities[i].ability.name;
-                pokemon_abilities.appendChild(t);
-              }
-
-              // also query the YouTube search API to find youtube videos about this pokemon
-              while (videos.children.length > 0) {
-                videos.removeChild( videos.children[0]);
-              }
-
-              while (player.children.length > 0) {
-                 player.removeChild( player.children[0]);
-              }
-
-              // initiate a search for a video
-              $.ajax({
-                url: 'https://www.googleapis.com/youtube/v3/search',
-                type: 'GET',
-                data: {
-                  part: 'snippet',
-                  q: query.value,
-                  key: apiKey
-                },
-                success: function(data, status) {
-                  console.log(data);
-                  // if some items came back from the search
-                  if (data.items) {
-                    // loop over the items and display their thumbnails
-                    for (var i =  0; i < data.items.length; i++) {
-                      console.log(data.items[i].snippet.thumbnails.default);
-                      var img = document.createElement('img');
-
-                      img.classList.add('videos');
-                      img.src = data.items[i].snippet.thumbnails.default.url;
-                      img.width = data.items[i].snippet.thumbnails.default.width;
-                      img.height = data.items[i].snippet.thumbnails.default.height;
-                      img.dataset.videoId = data.items[i].id.videoId;
-
-                      img.onclick = function(event) {
-
-                        console.log("https://www.youtube.com/watch?v="+event.currentTarget.dataset.videoId)
-
-                        let iframe = document.createElement('iframe');
-                        iframe.width =
-                        iframe.src = 'https://www.youtube.com/embed/' + event.currentTarget.dataset.videoId;
-                        player.appendChild(iframe);
-                        console.log(player.children);
-
-
-                      }
-                      videos.appendChild(img);
-                    }
-                  }
-                },
-                error: function(request, data, status) {
-                  console.log(data);
-                }
-              });
+      #link1{
+        color:white;
+      }
+      #link1:hover {
+        font-size: 50px;
+        /* text-decoration: overline; */
+        text-shadow: 1px 3px 1px grey;
+        color:purple;
+      }
+      #link1:active {
+            color:orange;
+          }
+      #link1:visited{
+        color:pink;
+      }
 
 
 
+      img {
+        position: fixed;
+        top: -20px;
+        right: -100px;
+        width: 1200px;
+        opacity: .2;
+        border-radius: 15px 50px 30px 400px;
+      }
 
-            },
-            error: function(req, data, status) {
-              console.log("error");
-              error.style.display = 'block';
+      iframe {
+        position: fixed;
+        width: 20vw;
+        height: 15vw;
+        top: 500px;
+        right: 50vw;
+        border-radius: 10px 30px 10px 40px;
+        z-index: 10;
+      }
+
+      video{
+              position: fixed;
+              /* width: 30vw; */
+              height:30vw;
+              top: 300px;
+              right: 10vw;
+              border-radius: 80px 30px 60px 30px;
+              opacity: .8;
+      }
+      #v1:hover {
+              border: 30px dashed white;
             }
-          });
+      #v1:active {
+              border: 30px dotted purple;
+            }
 
-        });
-
-
-
-
-      }); // end jQuery document ready function
-
-
-
-
-    </script>
+      audio{
+        position: fixed;
+        width: 100px;
+        top:60px;
+        left:100px;
+        z-index: 2;
+      }
 
 
-  </body>
-</html>
+          </style>
+        </head>
+        <img src="pic1.png">
+        <body>
+          <div id=text1>Hello World.</div>
+
+          <!-- source -->
+          <!-- https://faroutmagazine.co.uk/patti-smith-10-greatest-lyrics/ -->
+          <div id=text2>Called you on the phone, another dimension.
+          Well, you never returned, oh you know what I mean. I went looking for you, are you gone, gone?<br>
+          <span>I went looking for you, <span id=t1>are you gone, gone?</span> I went looking for you, are you gone, gone?
+          <div>
+
+            <div id=link1>
+              <a href=tutorial3.html>tutorial #3 page</a>
+            </div>
+
+          <div id=text3><a id=link2 href="https://en.wikipedia.org/wiki/Patti_Smith">I went looking for you, are you gone, gone?</a></div>
+          <div id=text4>Down by the ocean, it was so dismal,
+          Women all standing with a shock on their faces.<br>
+          Sad description, oh I was looking for you.
+          ‘Redondo Beach’ is very definitive as a piece of writing that stands on its own; it was originally a poem, published in her book, Kodak, in 1972. In this piece of writing, Smith once again examines love gone extreme, almost tipping over the edge into the abyss.
+          Supposedly, Smith wrote the words after she got into an argument with her sister Linda, who disappeared and the poet was afraid she had gone to go harm herself. Because of how the image of harm could be misconstrued, some have interpreted the song as an argument gone awry, and the narrator’s lover commits suicide afterwards.
+          The beauty in all of Smith’s poetry lies in the ambiguity of its meaning.
+          <span id=t2>Punk singer and writer</span>, Patti Smith, arrived in New York City in the early 1970s and she had her heart set on becoming a poet and following in the footsteps of her artistic heroes: Charles Baudelaire and Arthur Rimbaud. These two french poets are accredited with being two of the first scribes to work in the ‘symbolist’ tradition, creating elaborate imagery through the prism of hallucinatory visions. Soaked in absinthe and fumigated by the smoke of opium dens, the two poets created a romantic scene that few rockers could turn their back on.
+          Not so much concerned with drug use (although marijuana was her absinthe), Smith was taken by the sheer beauty of their language and how they touched on the ethereal and the dream-realm with a hefty grounding. There was a sense that one could find the unattainable via new realities by stimulating all the senses, with chemicals or otherwise, to unimagined heights. It was in this ideal where Patti Smith got her start as a poet.
+          It was also with this influence that Smith approached her songwriting; what began as poetry recitals at the famed St. Mark’s Poetry Project soon transformed into impassioned performances that deluded the sojourned, then on into bouts of transformative elation — those lucky enough to have been in attendance at CBGB’s in the mid-1970s were witness to a new form of punk poetry.
+          <a id=link1 href="https://www.pattismith.net/intro.html">Patti Smith, backed by her band, sang and screamed her fiery words against impressionable audiences.</a>
+          She had married the two styles together, creating a new way of consuming poetry and a brand new way of performing for a crowd. In the words of Patti Smith herself: “I did it for poetry. I did it for Rimbaud…I wanted to infuse the written word with the immediacy and frontal attack of rock and roll.”
+          As the music writer Richard Williams so poignantly wrote, Patti Smith “belonged to a time, but she didn’t belong to a movement.” Smith rose to prominence within the punk scene that centred around New York City in the mid-to-late ’70s, but the scene never really defined who she was as an artist. She has continuously been called a punk which can be misleading and limiting.
+          Patti Smith has always retained integrity in her music as well as her writing. She has published numerous books of poetry in addition to her relatively recent pair of memoirs, Just Kids and M Train.
+          In the spirit of Patti Smith’s incredible lyrical ability, we decided to take a look at her ten best lyrics.
+
+
+        </div>
+
+
+          <a href="https://cynthiaye.notion.site/CYNTHIA-S-ITP-JOURNEY-73b58d8d8ba54457b7109e9be957a89f">
+            <img id=img1 src="pic1.png">
+          </a>
+
+          <iframe src="https://www.youtube.com/embed/jM1sBxVeWjg" ></iframe>
+          <a href="https://en.wikipedia.org/wiki/Empresses_in_the_Palace">
+          <video id=v1 loop controls src="v1.mov" type="video/mov"></video>
+          </a>
+          <audio controls src="daydream.mp3">
+        </body>
+
+      </html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en-us">
+	<head>
+		<meta charset="UTF-8">
+
+		<!-- P5 libraries -->
+		<script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
+
+		<!-- A-Frame libraries -->
+		<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+
+		<!-- AFrameP5 library -->
+		<script src="https://craignyu.github.io/aframep5/libraries/aframep5.js"></script>
+
+		<script src="../p5/addons/p5.sound.min.js"></script>
+
+		<!-- P5 Sketch -->
+		<script src="sketch.js"></script>
+
+		<!-- custom styles -->
+		<style>
+			body {
+				padding: 0;
+				margin: 0;
+			}
+		</style>
+	</head>
+	<body>
+
+		<!-- container to hold our VR scene - make sure to give this element an ID of 'VRScene' -->
+	    <a-scene id="VRScene">
+
+	    	<!--
+		       The 'a-assets' container is used to load in any external artwork you may want to use as "textures" for your objects.
+		       Ensure that this element has an ID of 'VRAssets'
+
+		       Textures can be loaded by creating a new 'a-asset' tag inside of the 'a-assets' container.
+		       When doing this you will need to make sure to give your textures a unique ID -
+		       this will be used by p5 to create new objects.
+
+		       Example:
+
+		       <img id="ITEM_ID_GOES_HERE" src="images/gold_block.png">
+			-->
+
+			<!-- <a-assets id="VRAssets">
+
+				<img src="images/iron_block.png" id="iron">
+				<img src="images/gold_block.png" id="gold">
+				<img src="images/stonebrick_mossy.png" id="stone"> -->
+
+				<a-assets id="VRAssets">
+				<img src="images/woodfloor.png" id="wood">
+				<img src="images/gallery.png" id="sky1">
+				<img src="images/photo1.jpg" id="photo1">
+				<img src="images/photo2.jpg" id="photo2">
+				<img src="images/photo3.jpg" id="photo3">
+				<img src="images/photo4.jpg" id="photo4">
+				<img src="images/photo5.jpg" id="photo5">
+				<img src="images/photo6.jpg" id="photo6">
+				<img src="images/photo7.jpg" id="photo7">
+				<img src="images/photo8.jpg" id="photo8">
+				<img src="images/photo9.jpg" id="photo9">
+				<img src="images/photo10.jpg" id="photo10">
+
+				<a-asset id="sculpt_obj" src="images/art/model1.obj"></a-asset>
+				<a-asset id="sculpt_mtl" src="images/art/material1.mtl"></a-asset>
+
+				<a-asset id="dance_obj" src="images/dance/model2.obj"></a-asset>
+				<a-asset id="dance_mtl" src="images/dance/material2.mtl"></a-asset>
+
+				<a-asset id="man_obj" src="images/human/model3.obj"></a-asset>
+				<a-asset id="man_mtl" src="images/human/material3.mtl"></a-asset>
+
+				<a-asset id="woman_obj" src="images/human/model4.obj"></a-asset>
+				<a-asset id="woman_mtl" src="images/human/material4.mtl"></a-asset>
+
+			</a-assets>
+
+
+			<!-- <a-sky color="#fff"></a-sky> -->
+			<a-sky id="theSky" src="#sky1" color="rgb(255,255,255)"></a-sky>
+
+	    </a-scene>
+
+	</body>
+</html>

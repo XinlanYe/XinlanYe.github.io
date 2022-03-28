@@ -1,0 +1,111 @@
+<!doctype html>
+      <html>
+        <head>
+          <title>WebArtJQueryPage</title>
+
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+      	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+      	<script src="script.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+
+          <style>
+
+            body {
+            font-family: 'Josefin Sans', sans-serif;
+            background-color: black;
+            /* cursor:wait; */
+          }
+
+          #blue{
+            position: fixed;
+            top:75vh;
+            left:70vw;
+            opacity: .4;
+            width:120px;
+            height:120px;
+            z-index:15;
+            cursor: move;
+            /* border-radius: 400px 0px 0px 0px; */
+          }
+
+          #green{
+            position: fixed;
+            top:45vh;
+            left:70vw;
+            opacity: .5;
+            width:120px;
+            height:120px;
+            z-index:15;
+            cursor: move;
+            /* border-radius: 400px 0px 0px 0px; */
+          }
+
+          #yellow{
+            position: fixed;
+            top:15vh;
+            left:70vw;
+            opacity: .6;
+            width:120px;
+            height:120px;
+            z-index:15;
+            cursor: move;
+            /* border-radius: 400px 0px 0px 0px; */
+          }
+
+          #curve{
+            position: fixed;
+            top:31vh;
+            left:20vw;
+            opacity: .9;
+            width:80vw;
+            height:80vh;
+            z-index:9.9;
+          }
+
+          #gif01{
+            width:50vw;
+            height:100vh;
+            border-radius: 400px 0px 0px 0px;
+            cursor: move;
+          }
+          #gif00{
+            z-index:10;
+            /* cursor: move; */
+          }
+
+          /* audio{
+            display:none;
+          } */
+
+
+          </style>
+        </head>
+        <body>
+
+
+          <audio autoplay hidden>
+            <source src="summer_beach2.mp3" type="audio/mpeg">
+          </audio>
+
+          <img id=curve src="curve.png">
+
+
+
+
+
+          <div id=gif00>
+            <img id=gif01 src="https://media.giphy.com/media/hX0wSyZuL1pTzfc0Pz/giphy-downsized-large.gif">
+
+          </div>
+
+
+              <img id=blue src="b.png">
+              <img id=green src="g.png">
+              <img id=yellow src="yellow.png">
+
+
+
+
+
+        </body>
+      </html>

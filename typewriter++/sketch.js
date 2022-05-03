@@ -1,3 +1,19 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyDXbfNzZepnxzKMTob0VeD6PQVYRKuuwGk",
+  authDomain: "mind-media-final.firebaseapp.com",
+  databaseURL: "https://mind-media-final-default-rtdb.firebaseio.com",
+  projectId: "mind-media-final",
+  storageBucket: "mind-media-final.appspot.com",
+  messagingSenderId: "73316270802",
+  appId: "1:73316270802:web:78447e3e28466216af230b",
+};
+
+//firebase variables
+let group = "mySillyRoomName";
+let typeOfThing = "types";
+let db;
+let allStrokesLocal = {};
+
 // state1 variables
 let str = "";
 let c = 0;
@@ -80,10 +96,18 @@ let buttonx = 60;
 let buttony = 50;
 
 var fade = 0;
-var fadeAmount = 1
+var fadeAmount = 1;
+
+var a = 0;
+var change = 0.3;
+
+var d = 0;
+
+let maxDiameter = 15;
+let theta = 0;
 
 function preload() {
-  receipt = loadImage("receipt.png");
+  receipt = loadImage("receipt0503.png");
   film = loadImage("film.gif");
   bkImage = loadImage("space.png");
   fontOld = loadFont("Erika.ttf");
@@ -123,6 +147,10 @@ function preload() {
 }
 
 function setup() {
+  max_distance = dist(0, 0, width, height);
+  //firebase
+  connectToFirebase();
+
   //createCanvas(windowWidth, windowHeight);
   strArray = split(str, ",");
 
@@ -158,14 +186,21 @@ function draw() {
     pop();
   } else if (state == "3scene") {
     background(0);
+
     drawingContext.shadowBlur = 50;
     drawingContext.shadowColor = color(230, 230, 230);
+
     image(receipt, windowWidth / 2 - 200, windowHeight / 2 - 300, 349, 624);
     fill(255, 0, 0, fade);
-    text(actualLetter, windowWidth / 2 - 130, windowHeight / 2 + 120, 200, 100);
-    //if (fade<0) fadeAmount=1;
-    //if (fade>255) fadeAmount=-10;
+    //textExpand(actualLetter,actualLetter, windowWidth / 2 - 130, windowHeight / 2 + 120, 200, 100);
+     textExpand(actualLetter, windowWidth / 2 - 130, windowHeight / 2 + 120, 200, 100);
+    // //text(actualLetter, 500,500);
+    // //if (fade<0) fadeAmount=1;
+    // //if (fade>255) fadeAmount=-10;
     fade += fadeAmount;
+
+    showAll();
+
 
     button = createButton("BACK TO VINYL");
     button.position(windowWidth / 2 - 80, windowHeight / 2 + 350);
@@ -175,17 +210,59 @@ function draw() {
   //console.log(h)
 }
 
+function showAll() {
+  loop();
+  //noStroke();
+  let count = 0;
+  //textWrap(WORD);
+  let thisText = "a";
+
+  fill(255, 0, 0, 255);
+  //noStroke();
+  ellipseMode(CENTER);
+  textAlign(LEFT, CENTER);
+  // textH = 20
+  // textSize(textH);
+  var diam = 5 + sin(theta) * maxDiameter;
+  //textExpand('Here','thisText.text', 130, 150+ count*50);
+  // ellipse(100, 150+ count*50, diam, diam);
+
+  //textExpand('United States', 'test1', 130, 100, 20);
+
+  for (var key in allStrokesLocal) {
+    thisText = allStrokesLocal[key];
+
+    fill(0,0,0,fade);
+
+    //text(thisText.text,130,count*50+100);
+    //textExpand("     ", thisText.text, 130, 100 + count * 50);
+    textExpand(thisText.text, 130, 100 + count * 50);
+    fill(255,255,255,fade)
+    ellipse(100, 100 + count * 50, diam, diam);
+    count += 1;
+    // if(mouseX < 200 && mouseX > 100){
+    //   d = d + 10;
+    //   if(d>255){
+    //     d = 0;
+    //   }
+    // }
+  }
+  theta += 0.03;
+
+}
+
 function gotolink() {
   window.open("https://xinlanye.github.io/lunarvinyl/");
 }
 
 function keyPressed() {
   if (key == "Enter") {
+    addStrokeToDB();
     returnSound.play();
     state = "secondScene";
-     if (!bgMoon.isPlaying()) {
-          bgMoon.loop();
-     }
+    if (!bgMoon.isPlaying()) {
+      bgMoon.loop();
+    }
     typerSound.pause();
   } else {
     //if(!typerSound.isPlaying()){
@@ -216,6 +293,7 @@ function keyTyped() {
     if (key === key1[i]) {
       str += key2[i];
       actualLetter += key;
+      strokeDots.push(key);
 
       //更新图片，加到需要draw出来的array里
       drawmoons.push(moons[i]);
@@ -227,9 +305,26 @@ function moontyper() {
   background(0);
   drawingContext.shadowBlur = 30;
   drawingContext.shadowColor = color(230, 230, 230);
+  fill(255, 255, 255, a);
+  textSize(30);
+  textAlign(CENTER);
+  text(
+    "leave a message to someone you love",
+    windowWidth / 2,
+    windowHeight / 2
+  );
+  a += change;
+
+  if (a > 70) {
+    change = -change;
+  } else if (a < 0) {
+    change = -change;
+  }
 
   let len = str.length;
-  //fill(0);
+  textAlign(LEFT);
+  fill(0);
+  textSize(15);
   text(actualLetter, 45, 50);
 
   let xstart = 0;
@@ -251,7 +346,7 @@ function moontyper() {
     }
     //image(drawmoons[i], i * 45, windowHeight / 2);
   }
-  console.log(str);
+  //console.log(str);
 }
 function Blink() {
   let n = 80;
@@ -269,7 +364,6 @@ function state1setup() {
   fill(0);
   textStyle(BOLD);
   textFont(fontOld2);
-  textSize(15);
 }
 
 function state2setup() {
@@ -294,7 +388,6 @@ function drawwater() {
       nValue = 0;
     }
   }
-
 
   // We are going to draw a polygon out of the wave points
   beginShape();
@@ -358,7 +451,7 @@ function drawwater2() {
 
 function midMoon() {
   background(0);
-  console.log(drawmoons);
+  //console.log(drawmoons);
   //drawmoons.delay(100);
   for (i = 0; i < drawmoons.length; i++) {
     // if (actualLetter[i] == " ") {
@@ -405,7 +498,76 @@ function drawRec() {
 }
 
 function mousePressed() {
-  if (dist(mouseX, mouseY, buttonx, buttony) < 55 / 2) {
+  if (state=="secondScene" && dist(mouseX, mouseY, buttonx, buttony) < 55 / 2) {
     state = "3scene";
+  }
+  strokeDots = [];
+}
+
+//firebase functions
+function addStrokeToDB() {
+  let mydata = {
+    locations: strokeDots,
+    text: actualLetter,
+  };
+  //add a stroke
+  let dbInfo = db.ref("group/" + group + "/" + typeOfThing + "/").push(mydata);
+}
+
+function connectToFirebase() {
+  const app = firebase.initializeApp(firebaseConfig);
+  db = app.database();
+
+  var myRef = db.ref("group/" + group + "/" + typeOfThing + "/");
+  myRef.on("child_added", (data) => {
+    console.log("add", data.key, data.val());
+    let key = data.key;
+    let value = data.val();
+    //update our local variable
+    allStrokesLocal[key] = value;
+    //console.log(allStrokesLocal);
+  });
+
+  //not used
+  myRef.on("child_changed", (data) => {
+    console.log("changed", data.key, data.val());
+  });
+
+  //not used
+  myRef.on("child_removed", (data) => {
+    console.log("removed", data.key);
+  });
+}
+
+// function textExpand(textMain, textAdd, textX, textY) {
+//   // textSize(textH);
+//   text(textMain, textX, textY);
+//   textW = textWidth(textMain);
+//   if (
+//     mouseX > textX - 30 &&
+//     mouseX < textX + textW &&
+//     mouseY < textY + 8 &&
+//     mouseY > textY - 8
+//   ) {
+//     fill(0,0,0)
+//     text(textMain, textX, textY );
+//     fill(255,255,255);
+//     text(textAdd, textX, textY);
+//   }
+// }
+function textExpand(textMain, textX, textY) {
+  // textSize(textH);
+  text(textMain, textX, textY);
+  textW = textWidth(textMain);
+  if (
+    mouseX > textX - 30 &&
+    mouseX < textX + textW &&
+    mouseY < textY + 8 &&
+    mouseY > textY - 8
+  ) {
+     fill(255,255,255)
+    text(textMain, textX, textY );
+    // fill(255,255,255);
+    // text(textAdd, textX, textY);
   }
 }

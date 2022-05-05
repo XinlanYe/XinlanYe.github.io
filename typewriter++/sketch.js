@@ -50,6 +50,36 @@ let key1 = [
   "y",
   "z",
 ];
+
+let Capkey1 = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+];
+
 let key2 = [
   ",0",
   ",1",
@@ -291,6 +321,15 @@ function keyTyped() {
   // str += key;
   for (let i = 0; i <= key1.length; i++) {
     if (key === key1[i]) {
+      str += key2[i];
+      actualLetter += key;
+      strokeDots.push(key);
+
+      //更新图片，加到需要draw出来的array里
+      drawmoons.push(moons[i]);
+    }
+    
+    else if (key === Capkey1[i]){
       str += key2[i];
       actualLetter += key;
       strokeDots.push(key);

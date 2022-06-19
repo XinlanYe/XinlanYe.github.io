@@ -50,36 +50,6 @@ let key1 = [
   "y",
   "z",
 ];
-
-let Capkey1 = [
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "H",
-  "I",
-  "J",
-  "K",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "Q",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V",
-  "W",
-  "X",
-  "Y",
-  "Z",
-];
-
 let key2 = [
   ",0",
   ",1",
@@ -137,7 +107,7 @@ let maxDiameter = 15;
 let theta = 0;
 
 function preload() {
-  receipt = loadImage("receipt0503.png");
+  receipt = loadImage("receipt2.1.png");
   film = loadImage("film.gif");
   bkImage = loadImage("space.png");
   fontOld = loadFont("Erika.ttf");
@@ -220,6 +190,8 @@ function draw() {
     drawingContext.shadowBlur = 50;
     drawingContext.shadowColor = color(230, 230, 230);
 
+    //api
+    load_moon_phases(configMoon,example_1);
     image(receipt, windowWidth / 2 - 200, windowHeight / 2 - 300, 349, 624);
     fill(255, 0, 0, fade);
     //textExpand(actualLetter,actualLetter, windowWidth / 2 - 130, windowHeight / 2 + 120, 200, 100);
@@ -230,7 +202,7 @@ function draw() {
     fade += fadeAmount;
 
     showAll();
-
+    
 
     button = createButton("BACK TO VINYL");
     button.position(windowWidth / 2 - 80, windowHeight / 2 + 350);
@@ -239,6 +211,52 @@ function draw() {
 
   //console.log(h)
 }
+
+
+//0619新加的
+///
+function example_1(moon){    
+    var day = new Date().getDate()
+    var dayWeek=moon.phase[day].dayWeek
+    //写到html里
+        var html = "<div>" +
+    "<div shadow>" + moon.phase[day].svg + "</div>" +
+          "<div>" + day + " <b>" + moon.monthName + "</b> " +
+    moon.year + "</div>" +
+    "</div>"
+    
+    document.getElementById("ex1").innerHTML = html
+}   
+var configMoon = {
+    lang  		:'en', 
+    month 		:new Date().getMonth() + 1,
+    year  		:new Date().getFullYear(),
+    size		:150, 
+    lightColor	:"rgb(255,255,240)", 
+    shadeColor	:"black", 
+    texturize	:false, 
+}
+//load_moon_phases(configMoon,example_1);
+
+function load_moon_phases(obj,callback){
+    var gets=[]
+    for (var i in obj){
+        gets.push(i + "=" +encodeURIComponent(obj[i]))
+    }
+    gets.push("LDZ=" + new Date(obj.year,obj.month-1,1) / 1000)
+    var xmlhttp = new XMLHttpRequest()
+    var url = "https://www.icalendar37.net/lunar/api/?" + gets.join("&")
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            callback(JSON.parse(xmlhttp.responseText))
+        }
+    }
+    xmlhttp.open("GET", url, true)
+    xmlhttp.send()
+}
+
+//////////////////
+
 
 function showAll() {
   loop();
@@ -263,7 +281,7 @@ function showAll() {
     thisText = allStrokesLocal[key];
 
     fill(0,0,0,fade);
-
+    
     //text(thisText.text,130,count*50+100);
     //textExpand("     ", thisText.text, 130, 100 + count * 50);
     textExpand(thisText.text, 130, 100 + count * 50);
@@ -321,15 +339,6 @@ function keyTyped() {
   // str += key;
   for (let i = 0; i <= key1.length; i++) {
     if (key === key1[i]) {
-      str += key2[i];
-      actualLetter += key;
-      strokeDots.push(key);
-
-      //更新图片，加到需要draw出来的array里
-      drawmoons.push(moons[i]);
-    }
-    
-    else if (key === Capkey1[i]){
       str += key2[i];
       actualLetter += key;
       strokeDots.push(key);
